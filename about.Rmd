@@ -1,6 +1,9 @@
 ---
 title: "Contact"
-output: html_document
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
 ---
 
 If you have questions about the College Transition Study projects, please contact Steve Brunwasser: brunwasser@rowan.edu.

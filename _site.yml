@@ -1,11 +1,13 @@
-name: "GLS Overview"
+name: "College Transition Studies"
 navbar:
   title: "College Transition Studies"
-left:
+  left:
   - text: "Overview"
     href: index.html
   - text: "Depression Trajectories"
     href: depressTraj.html
+  - text: "Stress Trajectories"
+    href: stresstraj.html
   - text: "Contact"
     href: about.html
 output_dir: docs
