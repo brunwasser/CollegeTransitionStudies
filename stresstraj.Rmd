@@ -1,0 +1,67 @@
+---
+title: "Pereived Stress Trajectories"
+author: "Steve Brunwasser"
+date: "`r Sys.Date()`"
+output:
+  word_document:
+    toc: yes
+    toc_depth: '2'
+  html_document:
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+    number_sections: yes
+    code_folding: hide
+    theme: cosmo
+    highlight: tango
+---
+
+# Introduction
+
+
+## Burden of Stress on College Campuses
+- stress is the norm on college campuses
+  - common
+  - if -- particularly stressful time
+  - 40% of students report feeling overwhelmed by stress
+  - 71% report increased stress with COVID
+  - transfer students
+
+## Definition of Stress
+  - many ways to define stress
+    - events
+    - perceptions -- are the demands I'm facing greater than my coping resources (Lazarus & Folkman)
+    - biologically
+
+## Impact of Stress on Functioning
+  - sleep
+  - mental health
+  - academic performance
+  - physical health outcomes
+  - COVID makes it worse!
+
+## Stress During the Transition to college
+  - might be a particularly stressful time
+  - might be ideal for prevention
+
+## Prevention
+  - why prevention (rationale)
+  - modifiable 
+  - feasible
+- existing evidence for prevention
+  - what we know
+  - what are the gaps
+  - 
+
+# Current Study
+
+The purpose of this study is to improve understanding of the course and predictors of stress during the transition to college. We hypothesize that:
+
+1. Mean perceived stress trajectories will follow a nonlinear pattern: Increasing in the early weeks of the semester, as students are adjusting to a new environment and demands, and then leveling off toward the end of the semester.
+2. First-generation college students will report higher levels of stress throughout the semester
+3. International students will have higher levels of stress throughout the semester --  connectedness/belongingness/mattering. 
+4. Inhibited & socially anxious students will have poorer stress trajectories
+  
+  
+# Method
+

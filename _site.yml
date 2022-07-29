@@ -1,0 +1,9 @@
+name: "GLS Overview"
+navbar:
+  title: "College Transition Studies"
+left:
+  - text: "Overview"
+    href: index.html
+  - text: "Contact"
+    href: about.html
+output_dir: docs
