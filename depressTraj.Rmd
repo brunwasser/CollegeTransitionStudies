@@ -1,0 +1,171 @@
+---
+title: "Depression Trajectories"
+author: "Steve Brunwasser"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+    number_sections: yes
+    code_folding: hide
+    theme: cosmo
+    highlight: tango
+---
+```{r include=FALSE}
+knitr::opts_chunk$set( warning = F, message = F )
+```
+
+
+# Derived variables
+
+* **race.smb**: Derived race variable with 3 categories
+* **deo.smb**: Derive
+
+
+Prepare the workspace.
+```{r workspace}
+load( 'G:/My Drive/PrevSciLab/Students/PhdStudents/NicoleK/TransitionStudy/ctsr.RData' )
+ctsr1 <- subset( ctsr, !is.na( ctsr$transfer ), 
+                 c( 'id','week','campus','group','male','race2','parented','pastfin',
+                    'curfin','relig','medsever','medscur','txcur','therever','thercur',
+                    'txever','phq','procrast','bis','bas' )
+                 )
+require( Hmisc )
+require( lme4 )
+require( dagitty )
+```
+
+
+# Create a DAG to identify causal assumptions
+```{r dag}
+dag <- dagitty('dag {
+"Adverse life events" [pos="-2.013,-1.192"]
+"Current mental health problems" [pos="-0.306,0.955"]
+"Finances current" [pos="-0.803,0.378"]
+"Finances past" [pos="-1.280,-0.420"]
+"Parent education" [pos="-0.369,-0.264"]
+"Past mental health problems" [pos="0.862,-0.971"]
+Depression [outcome,pos="1.182,1.293"]
+Genetics [pos="-1.442,-1.549"]
+Group [exposure,pos="-1.798,1.286"]
+Procrastination [pos="1.171,-0.050"]
+Race [pos="-0.290,-1.646"]
+Sex [pos="0.338,-1.360"]
+"Adverse life events" -> "Current mental health problems" [pos="-1.301,0.676"]
+"Adverse life events" -> "Finances current" [pos="-1.631,-0.413"]
+"Adverse life events" -> "Finances past"
+"Adverse life events" -> "Past mental health problems"
+"Adverse life events" -> Depression
+"Adverse life events" -> Group
+"Adverse life events" -> Procrastination
+"Current mental health problems" -> Depression
+"Current mental health problems" -> Group
+"Current mental health problems" <-> Procrastination
+"Finances current" -> "Current mental health problems"
+"Finances current" -> Depression
+"Finances current" -> Group
+"Finances past" -> "Finances current"
+"Finances past" -> "Past mental health problems"
+"Parent education" -> "Finances current"
+"Parent education" -> "Finances past"
+"Parent education" -> Depression
+"Past mental health problems" -> "Current mental health problems"
+"Past mental health problems" -> Depression [pos="1.014,0.657"]
+"Past mental health problems" <-> Procrastination
+Genetics -> "Adverse life events"
+Genetics -> "Current mental health problems"
+Genetics -> "Parent education"
+Genetics -> "Past mental health problems"
+Genetics -> Depression [pos="-0.253,-0.647"]
+Genetics -> Group
+Genetics -> Procrastination
+Group -> Depression
+Procrastination -> Depression
+Procrastination -> Group
+Race -> "Adverse life events"
+Race -> "Finances current"
+Race -> "Finances past"
+Race -> "Parent education"
+Race -> Depression
+Race -> Group
+Sex -> "Adverse life events"
+Sex -> "Current mental health problems"
+Sex -> "Past mental health problems"
+Sex -> Depression
+Sex -> Group
+}
+')
+
+plot( dag )
+
+impliedConditionalIndependencies( dag )
+```
+
+
+```{r descriptive}
+html( describe( ctsr1 ) )
+
+label( ctsr1$id ) <- 'Unique participant identifier'
+label( ctsr1$week ) <- 'Week of the semester (0=semester begins)'
+label( ctsr1$campus ) <- 'Does participant live on campus?'
+
+
+
+require( rms )
+
+dd <- datadist( ctsr1 )
+options( datadist = 'dd' )
+
+```
+
+
+Adverse life events,
+Current mental health problems, 
+Finances current, 
+Genetics, 
+Procrastination, Race, Sex
+
+Redundacy analysis
+```{r}
+
+redun( phq ~ group + txcur + curfin + procrast + race2 + male, data = ctsr1 )
+```
+
+
+```{r}
+
+# m1 <- glmer.nb( phq ~ group*rcs( week, 3) + txcur*rcs( week, 3) + curfin + rcs( procrast, 3) + race2 + male +
+#                   ( 1 | id ),
+#                 data = ctsr1,
+#                 verbose = T
+#                 )
+# 
+# save( m1, file = 'm1.Rdata' )
+load( 'm1.Rdata' )
+```
+
+
+
+```{r}
+
+# m2 <- glmer( phq ~ group*rcs( week, 3) + txcur*rcs( week, 3) + curfin + rcs( procrast, 3) + race2 + male +
+#                   ( 1 | id ),
+#              family = 'poisson',
+#                 data = ctsr1
+#                 )
+# 
+# save( m2, file = 'm2.Rdata' )
+load( 'm2.Rdata' )
+```
+
+Likelihood ratio test: Do we need the 
+```{r}
+( lrt1.m1.m2 <- anova( m1, m2 ) )
+
+save( lrt1.m1.m2, file = 'lrt1.m1.m2.RData' )
+load( 'lrt1.m1.m2.RData' )
+```
+
+
+

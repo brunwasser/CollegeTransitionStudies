@@ -4,6 +4,8 @@ navbar:
 left:
   - text: "Overview"
     href: index.html
+  - text: "Depression Trajectories"
+    href: depressTraj.html
   - text: "Contact"
     href: about.html
 output_dir: docs
