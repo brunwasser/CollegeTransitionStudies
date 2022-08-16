@@ -5,7 +5,7 @@ navbar:
   - text: "Overview"
     href: index.html
   - text: "Depression Trajectories"
-    href: depressTraj.html
+    href: depressTraj1.html
   - text: "Stress Trajectories"
     href: stresstraj.html
   - text: "Contact"

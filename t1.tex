@@ -1,0 +1,23 @@
+%latex.default(cstats, title = title, file = file, append = TRUE,     caption = finalcaption, rowlabel = rowlabel, table.env = (!tabenv1 &&         table.env) || (tabenv1 && istr == 1), col.just = col.just,     numeric.dollar = FALSE, insert.bottom = finallegend, rowname = lab,     dcolumn = dcolumn, extracolheads = extracolheads, extracolsize = NNsize,     insert.top = if (strat != ".ALL.") strat, ...)%
+\begin{table}[!tbp]
+\caption{Descriptive Statistics$  (N=351)$. {\scriptsize $a$} $b$ {\scriptsize $c$} represent the lower quartile $a$, the median $b$, and the upper quartile $c$ for continuous variables. ~~ $N$ is the number of non-missing values. Numbers after proportions are frequencies. \indent Tests used: $^{1}$Pearson test; $^{2}$Kruskal-Wallis test .\label{t1}} 
+\begin{center}
+\begin{tabular}{lrccccc}
+\hline\hline
+\multicolumn{1}{l}{}&\multicolumn{1}{c}{N}&\multicolumn{1}{c}{First-Year}&\multicolumn{1}{c}{Transfer: On Campus}&\multicolumn{1}{c}{Transfer: Off Campus}&\multicolumn{1}{c}{Combined}&\multicolumn{1}{c}{Test Statistic}\tabularnewline
+&&\multicolumn{1}{c}{{\scriptsize $N=235$}}&\multicolumn{1}{c}{{\scriptsize $N=44$}}&\multicolumn{1}{c}{{\scriptsize $N=72$}}&\multicolumn{1}{c}{{\scriptsize $N=351$}}&\tabularnewline
+\hline
+sex~:~Male&351&0.40~{\scriptsize~~(~95)}&0.52~{\scriptsize~~(~23)}&0.32~{\scriptsize~~(~23)}&0.40~{\scriptsize~~(141)}&$\chi^{2}_{2}$=4.71,~P=0.095$^{1}$\tabularnewline
+race2~:~White&351&0.70~{\scriptsize~~(165)}&0.57~{\scriptsize~~(~25)}&0.57~{\scriptsize~~(~41)}&0.66~{\scriptsize~~(231)}&$\chi^{2}_{4}$=8.68,~P=0.07$^{1}$\tabularnewline
+~~~Asian&&0.19~{\scriptsize~~(~44)}&0.27~{\scriptsize~~(~12)}&0.33~{\scriptsize~~(~24)}&0.23~{\scriptsize~~(~80)}&\tabularnewline
+~~~Other&&0.11~{\scriptsize~~(~26)}&0.16~{\scriptsize~~(~~7)}&0.10~{\scriptsize~~(~~7)}&0.11~{\scriptsize~~(~40)}&\tabularnewline
+college~:~College~Degree&350&0.83~{\scriptsize~~(194)}&0.84~{\scriptsize~~(~37)}&0.76~{\scriptsize~~(~54)}&0.81~{\scriptsize~~(285)}&$\chi^{2}_{2}$=1.76,~P=0.415$^{1}$\tabularnewline
+curfin~:~Tight~but~fine&350&0.52~{\scriptsize~~(122)}&0.66~{\scriptsize~~(~29)}&0.65~{\scriptsize~~(~46)}&0.56~{\scriptsize~~(197)}&$\chi^{2}_{4}$=12.4,~P=0.015$^{1}$\tabularnewline
+~~~Struggle&&0.13~{\scriptsize~~(~31)}&0.14~{\scriptsize~~(~~6)}&0.20~{\scriptsize~~(~14)}&0.15~{\scriptsize~~(~51)}&\tabularnewline
+~~~Not~a~problem&&0.35~{\scriptsize~~(~82)}&0.20~{\scriptsize~~(~~9)}&0.15~{\scriptsize~~(~11)}&0.29~{\scriptsize~~(102)}&\tabularnewline
+txcur~:~Yes&351&0.07~{\scriptsize~~(~16)}&0.07~{\scriptsize~~(~~3)}&0.06~{\scriptsize~~(~~4)}&0.07~{\scriptsize~~(~23)}&$\chi^{2}_{2}$=0.15,~P=0.929$^{1}$\tabularnewline
+bis&350&{\scriptsize 19} 22 {\scriptsize 24}&{\scriptsize 19} 21 {\scriptsize 24}&{\scriptsize 19} 22 {\scriptsize 24}&{\scriptsize 19} 22 {\scriptsize 24}&$F_{2,347}$=0.1,~P=0.905$^{2}$\tabularnewline
+procrast.t1&349&{\scriptsize  8.00} 10.00 {\scriptsize 12.00}&{\scriptsize  6.00}  8.50 {\scriptsize 12.00}&{\scriptsize  6.75}  9.00 {\scriptsize 12.00}&{\scriptsize  7.00} 10.00 {\scriptsize 12.00}&$F_{2,346}$=3.57,~P=0.029$^{2}$\tabularnewline
+\hline
+\end{tabular}\end{center}
+\end{table}
