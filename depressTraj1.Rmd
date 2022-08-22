@@ -501,14 +501,12 @@ anova( m6.symp, m9.symp )
 ```{r}
 
 
-m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
+#m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
 
-m6.symppred.log <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe', back.transform = FALSE ) 
+#save( m6.symppred, file = 'm6.symppred.RData'  )
+
 
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-plot( m6.symppred, color = cbbPalette )
-
-plot( m6.symppred.log, color = cbbPalette )
 
 ggsave()
 symp.predplot <- ggplot( m6.symppred, aes(x, predicted, colour = group, fill = group ) ) + 
@@ -530,26 +528,19 @@ symp.predplot <- ggplot( m6.symppred, aes(x, predicted, colour = group, fill = g
   scale_fill_manual(values=cbbPalette) +
   scale_color_manual(values = cbbPalette ) +
   geom_vline( xintercept = 0, color = 2 )
+
 symp.predplot  
 
 
-ggsave(
-  filename = 'sympplot.tiff',
-  plot = last_plot(),
-  device = 'tiff',
-  # path = NULL,
-  # scale = 1,
-  # width = NA,
-  # height = NA,
-  # units = c("in", "cm", "mm", "px"),
-  dpi = 300,
-  limitsize = TRUE,
-  width = 12,
-  height = 10
-)
-
-
-
+# ggsave(
+#   filename = 'sympplot.tiff',
+#   plot = last_plot(),
+#   device = 'tiff',
+#   dpi = 300,
+#   limitsize = TRUE,
+#   width = 12,
+#   height = 10
+# )
 ```
 
 
@@ -622,7 +613,7 @@ load( 'm12.symp.Rdata' )
 
 
 ```{r}
-cr.vals.role <- cr_setup( ctsr.use$roleemot, direction = "backward" )
+cr.vals.role <- cr_setup( ctsr.use$roleemot )
 cr.data <- ctsr.use[cr.vals.role$subs, ]
 cr.data$roleemot.new <- cr.vals.role$y
 cr.data$cohort <- cr.vals.role$cohort
@@ -631,20 +622,20 @@ cr.data$cohort <- cr.vals.role$cohort
 
 
 ```{r}
-m0.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur*rcs(  weeks, 3 )
-                + rcs( procrastct, 3)*rcs(  weeks, 3 )
-                + rcs( bisct, 3)*rcs(  weeks, 3 )
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ rcs( weeks, 3 ) | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m0.role, file = 'm0.role.Rdata' )
+# m0.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs(  weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs(  weeks, 3 )
+#                 + rcs( bisct, 3)*rcs(  weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ rcs( weeks, 3 ) | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m0.role, file = 'm0.role.Rdata' )
 load( 'm0.role.Rdata' )
 ```
 
