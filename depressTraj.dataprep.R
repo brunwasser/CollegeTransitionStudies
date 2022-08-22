@@ -39,11 +39,15 @@ times2 <- times %>%
 times2 <- as.data.frame( times2 )
 times2$assess <- factor( times2$assess )
 
+ctsr$roleemot.o <- ordered( ctsr$roleemot, levels = 0:3 )
+ctsr$socfunc4.o <- ordered( ctsr$socfunc4 - 5, levels = 0:3 )
+
 ctsr1 <- subset( ctsr, !is.na( ctsr$transfer ), 
                  c( 'id','assess','week','campus','group','male','race2','parented','college','pastfin',
                     'curfin','relig','medsever','medscur','txcur','therever','thercur',
-                    'txever','phq','bis','bas','transfer' )
+                    'txever','phq','bis','bas','transfer','roleemot','socactiv' ) 
 )
+
 ctsr1a <- merge( ctsr1, pro, by = 'id', all.x = T )
 
 ctsr1b <- merge( ctsr1a, times2, by = c( 'id', 'assess' ) , all.x = T )
@@ -151,3 +155,4 @@ label( ctsr.use$weeks ) <- 'Week of the semester'
 
 #save( ctsr, file = 'ctsr.RData' )
 save( ctsr.use, file = 'ctsr.use.RData' )
+

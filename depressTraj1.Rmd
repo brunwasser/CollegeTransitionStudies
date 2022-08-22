@@ -380,26 +380,26 @@ ctsr.use3 <- subset( ctsr.use2, !is.na( ctsr.use1$curfin ) )
 ctsr.use4 <- subset( ctsr.use3, !is.na( ctsr.use1$procrastct) )
 ctsr.use5 <- subset( ctsr.use4, !is.na( ctsr.use1$bisct) )
 
-m6.symp1 <- mixed_model( fixed = phq ~ transfer.campus.f*weeks + transfer.campus.f*spline
-                + txcur
-                + procrastct
-                + bisct
-                + curfin
-                + race2
-                + sex,
-                random =~ weeks | id,
-                data = ctsr.use5,
-                family = GLMMadaptive:::negative.binomial()
-                )
+# m6.symp1 <- mixed_model( fixed = phq ~ transfer.campus.f*weeks + transfer.campus.f*spline
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + sex,
+#                 random =~ weeks | id,
+#                 data = ctsr.use5,
+#                 family = GLMMadaptive:::negative.binomial()
+#                 )
 
 save( m6.symp1, file = 'm6.symp1.Rdata' )
 
-m6.symp1.res <- simulateResiduals( m6.symp1 )
-plot( m6.symp.res )
-
-
-
-plotResiduals( m6.symp1.res, ctsr.use5$transfer.campus.f )
+# m6.symp1.res <- simulateResiduals( m6.symp1 )
+# plot( m6.symp1.res )
+# 
+# 
+# 
+# plotResiduals( m6.symp1.res, ctsr.use5$transfer.campus.f )
 
 ```
 
@@ -510,6 +510,7 @@ plot( m6.symppred, color = cbbPalette )
 
 plot( m6.symppred.log, color = cbbPalette )
 
+ggsave()
 symp.predplot <- ggplot( m6.symppred, aes(x, predicted, colour = group, fill = group ) ) + 
   geom_line( size = 1.25) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high ), alpha = .1, show.legend = F, linetype = 3 ) +
@@ -529,7 +530,25 @@ symp.predplot <- ggplot( m6.symppred, aes(x, predicted, colour = group, fill = g
   scale_fill_manual(values=cbbPalette) +
   scale_color_manual(values = cbbPalette ) +
   geom_vline( xintercept = 0, color = 2 )
-  
+symp.predplot  
+
+
+ggsave(
+  filename = 'sympplot.tiff',
+  plot = last_plot(),
+  device = 'tiff',
+  # path = NULL,
+  # scale = 1,
+  # width = NA,
+  # height = NA,
+  # units = c("in", "cm", "mm", "px"),
+  dpi = 300,
+  limitsize = TRUE,
+  width = 12,
+  height = 10
+)
+
+
 
 ```
 
@@ -543,38 +562,38 @@ ctsr.use$fycampus <- ifelse( ctsr.use$transfer == 'First-Year' & ctsr.use$campus
 
 ctsr.use.nofyoff <- subset( ctsr.use, fycampus == 0 )
 
-m10.symp <- mixed_model( fixed = phq ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur
-                + procrastct
-                + bisct
-                + curfin
-                + race2
-                + male,
-                random =~ weeks | id,
-                data = ctsr.use.nofyoff ,
-                family = GLMMadaptive:::negative.binomial()
-                )
-
-save( m10.symp, file = 'm10.symp.Rdata' )
+# m10.symp <- mixed_model( fixed = phq ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male,
+#                 random =~ weeks | id,
+#                 data = ctsr.use.nofyoff ,
+#                 family = GLMMadaptive:::negative.binomial()
+#                 )
+# 
+# save( m10.symp, file = 'm10.symp.Rdata' )
 load( 'm10.symp.Rdata' )
 ```
 
 
 
 ```{r}
-m11.symp <- mixed_model( fixed = phq ~ transfer.campus.f + rcs( weeks, 3 )
-                + txcur
-                + procrastct
-                + bisct
-                + curfin
-                + race2
-                + male,
-                random =~ weeks | id,
-                data = ctsr.use.nofyoff ,
-                family = GLMMadaptive:::negative.binomial()
-                )
-
-save( m11.symp, file = 'm11.symp.Rdata' )
+# m11.symp <- mixed_model( fixed = phq ~ transfer.campus.f + rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male,
+#                 random =~ weeks | id,
+#                 data = ctsr.use.nofyoff ,
+#                 family = GLMMadaptive:::negative.binomial()
+#                 )
+# 
+# save( m11.symp, file = 'm11.symp.Rdata' )
 load( 'm11.symp.Rdata' )
 
 
@@ -583,20 +602,286 @@ load( 'm11.symp.Rdata' )
 
 
 ```{r}
-m12.symp <- mixed_model( fixed = phq ~ rcs( weeks, 3 )
-                + txcur
-                + procrastct
-                + bisct
-                + curfin
-                + race2
-                + male,
-                random =~ weeks | id,
-                data = ctsr.use.nofyoff ,
-                family = GLMMadaptive:::negative.binomial()
-                )
-
-save( m12.symp, file = 'm11.symp.Rdata' )
+# m12.symp <- mixed_model( fixed = phq ~ rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male,
+#                 random =~ weeks | id,
+#                 data = ctsr.use.nofyoff ,
+#                 family = GLMMadaptive:::negative.binomial()
+#                 )
+# 
+# save( m12.symp, file = 'm11.symp.Rdata' )
 load( 'm12.symp.Rdata' )
 ```
 
+# Functioning Analyses
+
+
+```{r}
+cr.vals.role <- cr_setup( ctsr.use$roleemot, direction = "backward" )
+cr.data <- ctsr.use[cr.vals.role$subs, ]
+cr.data$roleemot.new <- cr.vals.role$y
+cr.data$cohort <- cr.vals.role$cohort
+```
+
+
+
+```{r}
+m0.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur*rcs(  weeks, 3 )
+                + rcs( procrastct, 3)*rcs(  weeks, 3 )
+                + rcs( bisct, 3)*rcs(  weeks, 3 )
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ rcs( weeks, 3 ) | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m0.role, file = 'm0.role.Rdata' )
+load( 'm0.role.Rdata' )
+```
+
+
+
+
+```{r}
+m1.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur*rcs(  weeks, 3 )
+                + rcs( procrastct, 3)*rcs(  weeks, 3 )
+                + rcs( bisct, 3)*rcs(  weeks, 3 )
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m1.role, file = 'm1.role.Rdata' )
+load( 'm1.role.Rdata' )
+```
+
+
+
+```{r}
+( lrt.m1role.m0role <- anova( m1.role, m0.role ) )
+```
+
+```{r}
+m2.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur*rcs(  weeks, 3 )
+                + rcs( procrastct, 3)*rcs(  weeks, 3 )
+                + rcs( bisct, 3)*rcs(  weeks, 3 )
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ 1 | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m2.role, file = 'm2.role.Rdata' )
+load( 'm2.role.Rdata' )
+```
+
+
+```{r}
+( lrt.m2role.m1role <- anova( m2.role, m1.role ) )
+```
+
+
+
+
+```{r}
+m3.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur*rcs(  weeks, 3 )
+                + procrastct*rcs(  weeks, 3 )
+                + rcs( bisct, 3)*rcs(  weeks, 3 )
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m3.role, file = 'm3.role.Rdata' )
+load( 'm3.role.Rdata' )
+```
+
+
+
+```{r}
+( lrt.m3role.m1role <- anova( m3.role, m1.role ) )
+```
+
+```{r}
+m4.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur*rcs(  weeks, 3 )
+                + rcs( procrastct, 3)*rcs(  weeks, 3 )
+                + bisct*rcs(  weeks, 3 )
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m4.role, file = 'm4.role.Rdata' )
+load( 'm4.role.Rdata' )
+```
+
+
+```{r}
+( lrt.m4role.m1role <- anova( m4.role, m1.role ) )
+```
+
+
+
+
+```{r}
+m5.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+                + txcur 
+                + rcs( procrastct, 3) 
+                + bisct 
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m5.role, file = 'm5.role.Rdata' )
+load( 'm5.role.Rdata' )
+```
+
+
+```{r}
+( lrt.m5ole.m4role <- anova( m5.role, m4.role ) )
+```
+
+
+```{r}
+m6.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*weeks
+                + txcur 
+                + rcs( procrastct, 3) 
+                + bisct 
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m6.role, file = 'm6.role.Rdata' )
+load( 'm6.role.Rdata' )
+```
+
+
+
+```{r}
+( lrt.m6ole.m5role <- anova( m6.role, m5.role ) )
+```
+
+
+
+
+```{r}
+
+m7.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f + rcs( weeks, 3 ) 
+                + txcur 
+                + rcs( procrastct, 3) 
+                + bisct 
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m7.role, file = 'm7.role.Rdata' )
+load( 'm7.role.Rdata' )
+
+
+weeks2 <- data.frame( rcspline.eval( cr.data$weeks, nk = 3 ) )
+
+
+```
+
+
+
+```{r}
+( lrt.m7ole.m5role <- anova( m7.role, m5.role ) )
+```
+
+```{r}
+m8.role <- mixed_model( fixed = roleemot.new ~  weeks
+                + txcur 
+                + rcs( procrastct, 3) 
+                + bisct 
+                + curfin
+                + race2
+                + male
+                + cohort,
+                random =~ weeks | id,
+                data = cr.data,
+                family = binomial()
+                )
+
+save( m8.role, file = 'm8.role.Rdata' )
+load( 'm8.role.Rdata' )
+```
+
+
+```{r}
+( lrt.m8ole.m6role <- anova( m8.role, m6.role ) )
+```
+
+
+
+
+
+```{r}
+m7.role.pred  <- ggpredict( m7.role, term=c('weeks [all]','transfer.campus.f' ) ) 
+```
+
+```{r}
+require( ordinal )
+
+
+m7a.role <- clmm( ordered( roleemot ) ~ transfer.campus.f + rcs( weeks, 3 ) 
+                + txcur 
+                + rcs( procrastct, 3) 
+                + bisct 
+                + curfin
+                + race2
+                + male
+                + cohort
+                + ( weeks | id ),
+                data = ctsr.use,
+                nAGQ = 1
+                )
+
+save( m7a.role, file = 'm7a.role.Rdata' )
+load( 'm7a.role.Rdata' )
+
+```
 
