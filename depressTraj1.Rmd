@@ -391,15 +391,14 @@ ctsr.use5 <- subset( ctsr.use4, !is.na( ctsr.use1$bisct) )
 #                 data = ctsr.use5,
 #                 family = GLMMadaptive:::negative.binomial()
 #                 )
-
-save( m6.symp1, file = 'm6.symp1.Rdata' )
+# 
+# save( m6.symp1, file = 'm6.symp1.Rdata' )
+load( 'm6.symp1.RData' )
 
 # m6.symp1.res <- simulateResiduals( m6.symp1 )
-# plot( m6.symp1.res )
 # 
-# 
-# 
-# plotResiduals( m6.symp1.res, ctsr.use5$transfer.campus.f )
+# m6resplot <- plot( m6.symp1.res )
+# save( m6resplot, file = 'm6resplot.Rmd')
 
 ```
 
@@ -501,7 +500,7 @@ anova( m6.symp, m9.symp )
 ```{r}
 
 
-#m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
+m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
 
 #save( m6.symppred, file = 'm6.symppred.RData'  )
 
