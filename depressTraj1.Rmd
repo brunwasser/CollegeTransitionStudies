@@ -12,7 +12,7 @@ output:
     theme: cosmo
     highlight: tango
 ---
-```{r include=FALSE}
+```{r settings, include=FALSE}
 knitr::opts_chunk$set( warning = F, message = F )
 ```
 
@@ -36,7 +36,7 @@ require( table1 )
 ```
 
 # Descriptive Satistics
-```{r }
+```{r descriptives }
 dd <- datadist( ctsr.use )
 options( datadist = 'dd' )
 
@@ -45,7 +45,7 @@ html( describe( ctsr.use ) )
 
 
 
-```{r}
+```{r table1}
 
 require( RProbSup )
 
@@ -157,7 +157,7 @@ impliedConditionalIndependencies( dag )
 ```
 
 View the minimally sufficient adjustment set implied by the DAG.
-```{r}
+```{r adjset}
 adjustmentSets( dag )
 ```
 
@@ -167,20 +167,21 @@ adjustmentSets( dag )
 ## CTSR
 
 Redundancy analysis to evaluate the extent of multicollinearity 
-```{r}
+```{r redundancy}
 
 redun( phq ~ transfer.campus.f + txcur + curfin + procrastct + bisct + race2 + male + cohort.f + weeks, data = ctsr.use.a1 )
 ```
 
 
-```{r}
+
+```{r descriptives2}
 html( describe( ctsr.use ) )
 ```
 
 
-
 ### m0.symp: Complex poisson model
-```{r}
+```{r m0symp}
+
 #m0.symp <- mixed_model( fixed = phq ~ transfer.campus.f*rcs( weeks, 3 )
 #                 + txcur*rcs(  weeks, 3 )
 #                 + rcs( procrastct, 3)*rcs(  weeks, 3 )
@@ -194,7 +195,10 @@ html( describe( ctsr.use ) )
 #                 )
 # 
 # save( m0.symp, file = 'm0.symp.Rdata' )
+
 load( 'm0.symp.Rdata' )
+
+
 ```
 
 
@@ -500,14 +504,13 @@ anova( m6.symp, m9.symp )
 ```{r}
 
 
-m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
-
+#m6.symppred <- ggpredict( m6.symp, term=c('weeks [all]','transfer.campus.f'), type = 'fe' ) 
 #save( m6.symppred, file = 'm6.symppred.RData'  )
-
+load( 'm6.symppred.RData' )
 
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-ggsave()
+
 symp.predplot <- ggplot( m6.symppred, aes(x, predicted, colour = group, fill = group ) ) + 
   geom_line( size = 1.25) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high ), alpha = .1, show.legend = F, linetype = 3 ) +
@@ -604,7 +607,7 @@ load( 'm11.symp.Rdata' )
 #                 family = GLMMadaptive:::negative.binomial()
 #                 )
 # 
-# save( m12.symp, file = 'm11.symp.Rdata' )
+#save( m12.symp, file = 'm12.symp.Rdata' )
 load( 'm12.symp.Rdata' )
 ```
 
@@ -642,20 +645,20 @@ load( 'm0.role.Rdata' )
 
 
 ```{r}
-m1.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur*rcs(  weeks, 3 )
-                + rcs( procrastct, 3)*rcs(  weeks, 3 )
-                + rcs( bisct, 3)*rcs(  weeks, 3 )
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m1.role, file = 'm1.role.Rdata' )
+# m1.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs(  weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs(  weeks, 3 )
+#                 + rcs( bisct, 3)*rcs(  weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m1.role, file = 'm1.role.Rdata' )
 load( 'm1.role.Rdata' )
 ```
 
@@ -666,20 +669,20 @@ load( 'm1.role.Rdata' )
 ```
 
 ```{r}
-m2.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur*rcs(  weeks, 3 )
-                + rcs( procrastct, 3)*rcs(  weeks, 3 )
-                + rcs( bisct, 3)*rcs(  weeks, 3 )
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ 1 | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m2.role, file = 'm2.role.Rdata' )
+# m2.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs(  weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs(  weeks, 3 )
+#                 + rcs( bisct, 3)*rcs(  weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ 1 | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m2.role, file = 'm2.role.Rdata' )
 load( 'm2.role.Rdata' )
 ```
 
@@ -690,22 +693,22 @@ load( 'm2.role.Rdata' )
 
 
 
-
+Drop nonlinear effect of procrastination.
 ```{r}
-m3.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur*rcs(  weeks, 3 )
-                + procrastct*rcs(  weeks, 3 )
-                + rcs( bisct, 3)*rcs(  weeks, 3 )
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m3.role, file = 'm3.role.Rdata' )
+# m3.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs(  weeks, 3 )
+#                 + procrastct*rcs(  weeks, 3 )
+#                 + rcs( bisct, 3)*rcs(  weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m3.role, file = 'm3.role.Rdata' )
 load( 'm3.role.Rdata' )
 ```
 
@@ -715,71 +718,72 @@ load( 'm3.role.Rdata' )
 ( lrt.m3role.m1role <- anova( m3.role, m1.role ) )
 ```
 
+Drop nonlinear effect of inhibition
 ```{r}
-m4.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur*rcs(  weeks, 3 )
-                + rcs( procrastct, 3)*rcs(  weeks, 3 )
-                + bisct*rcs(  weeks, 3 )
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m4.role, file = 'm4.role.Rdata' )
+# m4.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs(  weeks, 3 )
+#                 + procrastct*rcs(  weeks, 3 )
+#                 + bisct*rcs(  weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m4.role, file = 'm4.role.Rdata' )
 load( 'm4.role.Rdata' )
 ```
 
 
 ```{r}
-( lrt.m4role.m1role <- anova( m4.role, m1.role ) )
+( lrt.m4role.m3role <- anova( m4.role, m3.role ) )
 ```
 
 
 
-
+Drop interactions between time and adjustment variables
 ```{r}
-m5.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
-                + txcur 
-                + rcs( procrastct, 3) 
-                + bisct 
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m5.role, file = 'm5.role.Rdata' )
+# m5.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur 
+#                 + procrastct 
+#                 + rcs( bisct, 3 ) 
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m5.role, file = 'm5.role.Rdata' )
 load( 'm5.role.Rdata' )
 ```
 
 
 ```{r}
-( lrt.m5ole.m4role <- anova( m5.role, m4.role ) )
+( lrt.m5ole.m3role <- anova( m5.role, m3.role ) )
 ```
 
-
+Drop nonlinear effects of time
 ```{r}
-m6.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*weeks
-                + txcur 
-                + rcs( procrastct, 3) 
-                + bisct 
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m6.role, file = 'm6.role.Rdata' )
+# m6.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*weeks
+#                 + txcur 
+#                 + procrastct
+#                 + rcs( bisct, 3)  
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m6.role, file = 'm6.role.Rdata' )
 load( 'm6.role.Rdata' )
 ```
 
@@ -791,23 +795,23 @@ load( 'm6.role.Rdata' )
 
 
 
-
+Eliminate student status by time interaction
 ```{r}
 
-m7.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f + rcs( weeks, 3 ) 
-                + txcur 
-                + rcs( procrastct, 3) 
-                + bisct 
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m7.role, file = 'm7.role.Rdata' )
+# m7.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f + rcs( weeks, 3 ) 
+#                 + txcur 
+#                 + procrastct
+#                 + bisct 
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m7.role, file = 'm7.role.Rdata' )
 load( 'm7.role.Rdata' )
 
 
@@ -823,55 +827,379 @@ weeks2 <- data.frame( rcspline.eval( cr.data$weeks, nk = 3 ) )
 ```
 
 ```{r}
-m8.role <- mixed_model( fixed = roleemot.new ~  weeks
-                + txcur 
-                + rcs( procrastct, 3) 
-                + bisct 
-                + curfin
-                + race2
-                + male
-                + cohort,
-                random =~ weeks | id,
-                data = cr.data,
-                family = binomial()
-                )
-
-save( m8.role, file = 'm8.role.Rdata' )
+# m8.role <- mixed_model( fixed = roleemot.new ~  rcs( weeks, 3) 
+#                 + txcur 
+#                 + procrastct
+#                 + rcs( bisct, 3 )  
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m8.role, file = 'm8.role.Rdata' )
 load( 'm8.role.Rdata' )
 ```
 
 
 ```{r}
-( lrt.m8ole.m6role <- anova( m8.role, m6.role ) )
+( lrt.m8ole.m7role <- anova( m8.role, m7.role ) )
+```
+
+Fit model allowing non-parallel slopes for effect of student status on functioning
+```{r}
+# m9.role <- mixed_model( fixed = roleemot.new ~ rcs( weeks, 3)
+#                 + transfer.campus.f*cohort
+#                 + txcur
+#                 + procrastct
+#                 + rcs( bisct, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data,
+#                 family = binomial()
+#                 )
+# 
+# save( m9.role, file = 'm9.role.Rdata' )
+load( 'm9.role.Rdata' )
+```
+
+
+```{r}
+anova( m7.role, m9.role )
+```
+
+
+```{r}
+# m7.role.pred  <- ggpredict( m7.role, term=c('weeks [all]','transfer.campus.f' ) ) 
+# save( m7.role.pred, file = 'm7.role.pred.RData'  )
+# 
+# load( 'm7.role.pred.RData' )
+# 
+# cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+# 
+# 
+# role.predplot <- ggplot( m7.role.pred, aes(x, predicted, colour = group, fill = group ) ) + 
+#   geom_line( size = 1.25) +
+#   geom_ribbon(aes(ymin = conf.low, ymax = conf.high ), alpha = .1, show.legend = F, linetype = 3 ) +
+#   labs( x = 'Week of the Fall Semester',
+#     y = 'PHQ-8 Total Depressive Symptom Score',
+#     colour = 'Student Type',
+#     title = 'Model-Predicted Mean Depressive Symptom Trajectories',
+#     subtitle = 'Based on Mixed-Effects Negative Binomial Model',
+#     caption = 'Adjusts for baseline mental health treatment, race, sex, inhibition, procrastination, & financial comfort') +
+#   theme( plot.title = element_text( face = 'bold', size = 18, color = 'darkblue', hjust = .5),
+#          axis.title = element_text( size = 14),
+#          legend.title = element_text( size = 14, face = 'bold'),
+#          plot.subtitle = element_text( size = 14, face = 'bold', hjust = .5),
+#          legend.key.size = unit(1, 'cm'),
+#          legend.text = element_text( size = 12),
+#          plot.caption = element_text( size = 12)) +
+#   scale_fill_manual(values=cbbPalette) +
+#   scale_color_manual(values = cbbPalette ) +
+#   geom_vline( xintercept = 0, color = 2 )
+# 
+# role.predplot  
+# 
+# 
+# 
+# nDF <- with(cr.data, expand.grid( weeks = seq(-2, 15, by = .5 ),
+#                                   transfer.campus.f = levels( transfer.campus.f ),
+#                                   txcur = 'No', 
+#                                   procrastct = 0,
+#                                   bisct = 0,
+#                                   curfin = 'Tight but fine',
+#                                   race2 = 'White/Caucasian',
+#                                   male = 0,
+#                                   cohort = 'all' ) 
+#             ) 
+#                                   
+#                                   
+# 
+# key <- list(space = "top", rep = FALSE,
+#             text = list(levels(DF$y)[1:2]),
+#             lines = list(lty = c(1, 1), lwd = c(2, 2), col = c("#0080ff", "#ff00ff")),
+#             text = list(levels(DF$y)[3:4]),
+#             lines = list(lty = c(1, 1), lwd = c(2, 2), col = c("darkgreen", "#ff0000")))
+# 
+# xyplot(expit(pred) ~ time | sex, group = ordinal_response, data = plot_data_m, 
+#        upper = expit(plot_data_m$upp), low = expit(plot_data_m$low), type = "l",
+#        panel = function (x, y, ...) {
+#            panel.superpose(x, y, panel.groups = my_panel_bands, ...)
+#            panel.xyplot(x, y, lwd = 2, ...)
+#        }, xlab = "Follow-up time", ylab = "Marginal Probabilities", key = key)
+# 
+# 
+# plot_data <- effectPlotData( m7.role, nDF)
+# 
+# expit <- function (x) exp(x) / (1 + exp(x))
+# my_panel_bands <- function(x, y, upper, lower, fill, col, subscripts, ..., font, 
+#                            fontface) {
+#     upper <- upper[subscripts]
+#     lower <- lower[subscripts]
+#     panel.polygon(c(x, rev(x)), c(upper, rev(lower)), col = fill, border = FALSE, ...)
+# }
+# 
+# xyplot(expit(pred) ~ weeks, group = transfer.campus.f, data = plot_data, 
+#        upper = expit(plot_data$upp), low = expit(plot_data$low), type = "l",
+#        panel = function (x, y, ...) {
+#            panel.superpose(x, y, panel.groups = my_panel_bands, ...)
+#            panel.xyplot(x, y, lwd = 2,  ...)
+#        }, xlab = "Follow-up time", ylab = "Continuation Ratio Probabilities")
+
+
+```
+
+
+```{r}
+cr.vals.social <- cr_setup( ctsr.use$socactiv )
+cr.data.soc <- ctsr.use[cr.vals.social$subs, ]
+cr.data.soc$socactiv.new <- cr.vals.social$y
+cr.data.soc$cohort <- cr.vals.social$cohort
+```
+
+
+Most complex model. Originally we attempted to fit this model with interactions between several adjustment variables (*txcur*, *procrastct*, & *bisct*) and time, but the model did not converge. We simplified the model by removing these interactions. We add these interactions back in **m2.social** below.
+```{r}
+# m0.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + rcs( bisct, 3)
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ rcs( weeks, 3 ) | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m0.social, file = 'm0.social.Rdata' )
+load( 'm0.social.Rdata' )
+
+```
+
+
+Drop nonlinear random time effects 
+```{r}
+# m1.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + rcs( bisct, 3)
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m1.social, file = 'm1.social.Rdata' )
+load( 'm1.social.Rdata' )
+```
+
+
+```{r}
+anova( m0.social, m1.social )
+```
+
+
+Add interactions between adjustment variables and time
+```{r}
+# m2.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs( weeks, 3 )
+#                 + rcs( bisct, 3)*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m2.social, file = 'm2.social.Rdata' )
+load( 'm2.social.Rdata' )
+```
+
+
+Drop random linear time effects 
+```{r}
+# m3.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs( weeks, 3 )
+#                 + rcs( bisct, 3)*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ 1 | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m3.social, file = 'm3.social.Rdata' )
+load( 'm3.social.Rdata' )
+```
+
+```{r}
+anova( m2.social, m3.social )
+```
+
+
+Drop nonlinear fixed effect of procrastination
+```{r}
+# m4.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + procrastct*rcs( weeks, 3 )
+#                 + rcs( bisct, 3)*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m4.social, file = 'm4.social.Rdata' )
+load( 'm4.social.Rdata' )
+```
+
+```{r}
+anova( m2.social, m4.social )
+```
+
+
+Drop fixed nonlinear effect of inhibition
+```{r}
+# m5.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + rcs( procrastct, 3)*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m5.social, file = 'm5.social.Rdata' )
+load( 'm5.social.Rdata' )
+```
+
+```{r}
+anova( m2.social, m5.social )
+```
+
+
+
+Drop adjustment variable by time interactions
+```{r}
+# m6.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m6.social, file = 'm6.social.Rdata' )
+load( 'm6.social.Rdata' )
+```
+
+```{r}
+anova( m5.social, m6.social )
 ```
 
 
 
 
-
+Drop fixed nonlinear time effects
 ```{r}
-m7.role.pred  <- ggpredict( m7.role, term=c('weeks [all]','transfer.campus.f' ) ) 
+# m7.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f*weeks
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m7.social, file = 'm7.social.Rdata' )
+load( 'm7.social.Rdata' )
 ```
 
 ```{r}
-require( ordinal )
+anova( m6.social, m7.social )
+```
 
 
-m7a.role <- clmm( ordered( roleemot ) ~ transfer.campus.f + rcs( weeks, 3 ) 
-                + txcur 
-                + rcs( procrastct, 3) 
-                + bisct 
-                + curfin
-                + race2
-                + male
-                + cohort
-                + ( weeks | id ),
-                data = ctsr.use,
-                nAGQ = 1
-                )
+Drop student status by time interaction
+```{r}
+# m8.social <- mixed_model( fixed = socactiv.new ~ transfer.campus.f + weeks
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m8.social, file = 'm8.social.Rdata' )
+load( 'm8.social.Rdata' )
+```
 
-save( m7a.role, file = 'm7a.role.Rdata' )
-load( 'm7a.role.Rdata' )
 
+
+```{r}
+anova( m7.social, m8.social )
+```
+
+
+Drop effect of student status altogether
+```{r}
+# m9.social <- mixed_model( fixed = socactiv.new ~ weeks
+#                 + txcur
+#                 + rcs( procrastct, 3)
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort,
+#                 random =~ weeks | id,
+#                 data = cr.data.soc,
+#                 family = binomial()
+#                 )
+# 
+# save( m9.social, file = 'm9.social.Rdata' )
+load( 'm9.social.Rdata' )
+```
+
+
+```{r}
+anova( m8.social, m9.social )
 ```
 
