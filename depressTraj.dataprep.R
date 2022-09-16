@@ -42,10 +42,16 @@ times2$assess <- factor( times2$assess )
 ctsr$roleemot.o <- ordered( ctsr$roleemot, levels = 0:3 )
 ctsr$socfunc4.o <- ordered( ctsr$socfunc4 - 5, levels = 0:3 )
 
+table( ctsr$mhpast <- ifelse( ctsr$psycever == 'Yes' |
+                         ctsr$txever == 'Yes', 1, 0 
+                       )
+)
+ctsr$mhpast <- factor( ctsr$mhpast, levels = 0:1, labels = c('No','Yes') )
+
 ctsr1 <- subset( ctsr, !is.na( ctsr$transfer ), 
                  c( 'id','assess','week','campus','group','male','race2','parented','college','pastfin',
                     'curfin','relig','medsever','medscur','txcur','therever','thercur',
-                    'txever','phq','bis','bas','transfer','roleemot','socactiv' ) 
+                    'txever','mhpast','phq','bis','bas','transfer','roleemot','socactiv' ) 
 )
 
 ctsr1a <- merge( ctsr1, pro, by = 'id', all.x = T )
@@ -149,6 +155,8 @@ ctsr.use$transfer.campus[ ctsr.use$transfer == 'Transfer' & ctsr.use$campus == '
 ctsr.use$transfer.campus[ ctsr.use$transfer == 'Transfer' & ctsr.use$campus == 'Off Campus' ] <- 3
 ctsr.use$transfer.campus.f <- factor( ctsr.use$transfer.campus, levels = 1:3, labels = c('First-Year','Transfer: On Campus','Transfer: Off Campus' ) )
 label( ctsr.use$transfer.campus.f ) <- 'Student Type' 
+
+label( ctsr.use$mhpast ) <- 'Ever Had or Thought Needed Mental Health Support'
 
 ctsr.use$weeks <- ctsr.use$days/7
 label( ctsr.use$weeks ) <- 'Week of the semester'
