@@ -1,0 +1,74 @@
+---
+title: Depressive Symptoms during the Transition to College among Incoming First-Year and Transfer Students
+author:
+  - name: Steven M. Brunwasser
+    email: brunwasser@rowan.edu
+    affiliation: Rowan University
+    corresponding: brunwasser@rowan.edu
+  - name: Nicole Kelso
+    email: kelson55@rowan.edu
+    affiliation: Rowan University
+  - name: Sarah K. Lipson
+    email: sklipson@bu.edu
+    affiliation: Boston University School of Public Health
+  - name: Nansook Park
+    email: nspark@umich.edu
+    affiliation: University of Michigan
+  - name: Daniel Eisenberg 
+    email: danieleisenberg@ucla.edu
+    affiliation: Fielding School of Public Health at the University of California, Los Angeles
+address:
+  - code: Rowan University
+    address: Department of Psychology, 201 Mullica Hill Road, Glassboro, New Jersey, 08028
+  - code: Boston University 
+    address: School of Public Health, Boston Univeristy, 715 Albany Street, Boston, Massachusetts 02118
+abstract: |
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
+  
+author_summary: |
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
+
+bibliography: bibliography.bib
+output: rticles::plos_article
+# plos.csl can be download and used locally
+csl: plos-one.csl
+---
+
+_Text based on plos sample manuscript, see <https://journals.plos.org/ploscompbiol/s/latex>_
+
+# Introduction
+
+## Study 1: College Transition Study (CTS)
+
+### Materials and Methods
+
+All study procedures were approved by the University of Michigan Institutional Review Board. The study was open to all incoming undergraduate students, including students in their first ever semester at any higher education institution (*first-years*) and transfer students in their first semester at the university (*transfers*). We sent emails advertising the study through university-approved e-mail lists and posted flyers in popular locations on campus. Due to limited resources, we closed recruitment once 41 first-years and 41 transfers provided consent to participate ($N=82$). In total, participants completed eight web-based assessments, two during each month of the fall semester (September-December 2008). Participants could earn up to \$35 for participation: \$7 for each month in which they completed both assessments and a bonus of \$7 for completing all eight assessments. Three participants (4%) dropped from the study before the final assessment. The participation rate for each study assessment exceeded 90%. Demographic characteristics of study participants are summarized in Table 1. 
+
+
+### Results
+
+
+
+### Discussion
+
+## Study 2: College Transition Study--Replication
+
+### Overview
+
+### Methods
+
+### Results
+
+### Discussion
+
+## Study 3: Healthy Minds
+
+### Overview
+
+### Methods
+
+### Results
+
+### Discussion
+
+# References {#references .unnumbered}

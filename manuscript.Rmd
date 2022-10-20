@@ -1,0 +1,62 @@
+---
+title: "Depression Trajectory Manuscript"
+author: "Steve Brunwasser"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Study Overviews
+
+# Overview of Studies
+
+## Study Designs
+
+We report findings from three data sets. Study 1 ($N=82$) used data from a prospective longitudinal  cohort study, the *College Transition Study* (CTS), which tracked depressive symptoms among incoming first-time college students (*first-years*) and transfer students in their first semester at a large public university (*transfers*). Study 2, the *College Transition Study--Replication* (CTSR), aimed to extend the findings from the CTS using a highly similar design with a larger sample ($n=351$) at the same university. Finally, Study 3 used a subset of data from the *Healthy Minds Study* (HMS), cross-sectional survey of college student mental health conducted across dozens of postsecondary institutions in the U.S. 
+
+## Common Study Procedures
+
+All three studies collected data via self-report online surveys. Although depressive symptom measures were typically developed and validated using factor models assuming an underlying unidimensional construct ("depression") giving rise to variability in the individual symptom items, recent scholarship has challenged the implicit hypothesis of an underlying "depression" construct that can be well-approximated by summing/averaging individual item scores. We subscribe to the view that individual depressive symptoms (e.g., sadness, anehdonia, sleep disturbance, etc.) likely influence one another dynamically in a complex and self-sustaining network. Summed composite scores likely provide a rough estimate of the extent to which these symptoms networks are active. 
+
+Outcomes from studies 1 and 2 were initially reported in the first author's dissertation. The findings reported within differ as the primary hypotheses were reevaluated using, in our view, a more rigorous statistical approach, generally yielding more cautious conclusions.
+
+
+
+## General Statistical Approach
+
+Outcomes measurements in all three studies were clustered, either within participants (studies 1 and 2) or institutions (study 3). We used generalized linear mixed-effects modeling (GLMM) to test study hypotheses while accounting for within-cluster dependencies. Depressive symptom severity, the primary outcome in this paper, was measured using composite scores from well-established self-report questionnaires. These scores yield values of zero (no symptoms detected) or positive integer values only. In non-clinical samples, the distribution of the composite scores typically has strong positive skew with many zero values, often rendering linear transformations ineffective. Consequently, we modeled depressive symptom composite scores using count models as they are better suited for data with these distributions.   
+
+
+## Study 1: College Transition Study (CTS)
+
+### Overview
+
+
+### Methods
+
+### Results
+
+
+
+### Discussion
+
+## Study 2: College Transition Study--Replication
+
+### Overview
+
+### Methods
+
+### Results
+
+### Discussion
+
+## Study 3: Healthy Minds
+
+### Overview
+
+### Methods
+
+### Results
+
+### Discussion
+
+
