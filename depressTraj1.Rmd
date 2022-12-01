@@ -41,30 +41,36 @@ require( car )
 
 # Study 1: College Transition Study (CTS)
 
+
+## Data Prep
+
+Create a data frame containing the subset of variables to be use in the analysis and make categorical variables factors.
 ```{r}
 cts.use <- cts[, c('id','assess','transfer','sex','race','age','int','parenteduc','trans.commun','campus','group','week','cesdtot')]
-summary( cts.use$minority <- factor( ifelse( cts.use$race == 'White/Caucasian', 0, 1 ),
+cts.use$minority <- factor( ifelse( cts.use$race == 'White/Caucasian', 0, 1 ),
                          levels = 0:1,
-                         labels = c('Non-Hispanic White/Caucasian','Minority Race/Ethnicity') )
-)
+                         labels = c('Non-Hispanic White/Caucasian','Minority Race/Ethnicity') 
+                         )
 
-summary( cts.use$nocollege <- factor( ifelse( cts.use$parenteduc == 'College degree' | cts.use$parenteduc == 'Post-college degree', 0, 1 ),
+
+cts.use$nocollege <- factor( ifelse( cts.use$parenteduc == 'College degree' | cts.use$parenteduc == 'Post-college degree', 0, 1 ),
                          levels = 0:1,
                          labels = c('College ','No college') )
-)
+
 
 levels( cts.use$transfer ) <- c('First Years','Transfers')
 levels( cts.use$group ) <- c('First Year','Transfer: On Campus','Transfer: Off Campus')
 ```
 
 
+## Modeling Symptom Trajectories
 
+Conduct a redundancy analysis to assess for high levels of collinearity in the model predictors.
 ```{r}
 cts.use1 <- subset( cts.use, assess == 1 )
 
 redun( cesdtot ~ transfer + sex + minority + nocollege + int, data = cts.use1  )
 ```
-
 
 ```{r}
 # m0.cts <- mixed_model( fixed = cesdtot ~ transfer*rcs( week, 3 )
@@ -305,7 +311,6 @@ load( 'm10.cts.Rdata' )
 ```
 
 
-
 ```{r}
 
 cts.use.nm <- cts.use[ !is.na( cts.use$cesdtot ), ]
@@ -378,6 +383,9 @@ ggplot(traj, aes(x=week, y=cesdtot, colour=group, shape =group)) +
 
 m7.cts.pred <- ggpredict( m7.cts, term=c('week','transfer'), type = 'fe' )
 save( m7.cts.pred, file = 'm7.cts.pred.RData'  )
+
+m7.cts.pred1 <- ggpredict( m7.cts, term=c('week','sex'), type = 'fe' )
+save( m7.cts.pred1, file = 'm7.cts.pred1.RData'  )
 
 m10.cts.pred <- ggpredict( m10.cts, term=c('week','group'), type = 'fe' )
 save( m10.cts.pred, file = 'm10.cts.pred.RData'  )
@@ -698,11 +706,9 @@ View the minimally sufficient adjustment set implied by the DAG.
 adjustmentSets( dag2 )
 ```
 
-# Statistical Modeling
+## Modeling Symptom Trajectorie
 
-## CTSR
-
-Redundancy analysis to evaluate the extent of multicollinearity 
+Redundancy analysis to evaluate the extent of multi-collinearity 
 ```{r redundancy}
 
 redun( phq ~ transfer.campus.f + txcur + mhpast + curfin + procrastct + bisct + race2 + male + weeks + nocollege, data = ctsr.use.a1 )
@@ -715,7 +721,7 @@ redun( phq ~ transfer.campus.f + txcur + mhpast + curfin + procrastct + bisct + 
 ```
 
 
-### m0.symp: Complex poisson model
+**m0.symp: Complex poisson model**
 This is a Poisson model, assuming a single parameters can capture both the conditional mean and variance in the outcome. This complex model includes:
 
 * Random intercepts and slopes for linear time effect
@@ -744,7 +750,7 @@ load( 'm0.symp.Rdata' )
 ```
 
 
-### m1.symp: Complex negative binomial model
+**m1.symp: Complex negative binomial model**
 
 * Adds $df=1$ to *m0.symp* in the form of a $\theta$ parameter to capture overdispersion
 
@@ -769,7 +775,7 @@ load( 'm1.symp.Rdata' )
 ```
 
 
-#### COmpare Poisson & negative binomials models
+**Compare Poisson & negative binomials models (m1.symp vs. m2.symp)**
 
 * Addition of $\theta$ parameter substantially improves fit
 * $\theta$ estimate is very large relative to its standard error 
@@ -780,7 +786,7 @@ load( 'm1.symp.Rdata' )
 
 
 
-### m2.symp: 
+**m2.symp: Drop random slope** 
 
 * Drop the random time effects
 * Allow random variation around the intercept but not linear slope
@@ -807,7 +813,7 @@ load( 'm2.symp.Rdata' )
 ```
 
 
-#### Compare models with & without random time slopes
+**Compare models with & without random time slopes**
 
 * Strong evidence in support of retention of random time slope
 
@@ -816,7 +822,7 @@ load( 'm2.symp.Rdata' )
 ```
 
 
-### m3.symp: Drop interaction of current treatment & time
+**m3.symp: Drop interaction of current treatment & time**
 
 * Drop interaction between baseline mental health treatment status and time
 * Results in gain of $df=2$
@@ -842,7 +848,7 @@ load( 'm3.symp.Rdata' )
 ```
 
 
-#### Compare models with & without txcur*weeks effect
+**Compare models with & without txcur_x_weeks effect**
 
 * Insufficient evidence to support retention of txcur*weeks interaction
 * Drop this effect from future models 
@@ -851,7 +857,7 @@ load( 'm3.symp.Rdata' )
 ( lrt.m1symp.m3symp <- anova( m1.symp, m3.symp ) )
 ```
 
-### m4.symp: Drop interaction of procrastination & time
+**m4.symp: Drop interaction of procrastination & time**
 * Simplify model by dropping interaction of procrastination with time
 * Results in gain of $df=2$
 
@@ -875,7 +881,7 @@ load( 'm3.symp.Rdata' )
 load( 'm4.symp.Rdata' )
 ```
 
-#### Compare models with & without procrastct*weeks
+**Compare models with & without procrastct_x_weeks**
 
 * Insufficient evidence to support retention of interaction
 * Drop procrastct*weeks interaction from subsequent models
@@ -884,7 +890,7 @@ load( 'm4.symp.Rdata' )
 ( lrt.m3symp.m4symp <- anova( m3.symp, m4.symp ) )
 ```
 
-### m5.symp: Drop interaction of inhibition & time
+**m5.symp: Drop interaction of inhibition & time**
 * Simplify model by dropping effect of inhibition & its interaction with time
 * Results in gain of $df=2$
 
@@ -908,7 +914,7 @@ load( 'm4.symp.Rdata' )
 load( 'm5.symp.Rdata' )
 ```
 
-#### Compare models with & without bisct*weeks interaction
+**Compare models with & without bisct_x_weeks interaction**
 
 * Insufficient evidence to support retention of interaction
 * Drop from subsequent models
@@ -917,13 +923,12 @@ load( 'm5.symp.Rdata' )
 ( lrt.m4symp.m5symp <- anova( m4.symp, m5.symp ) )
 ```
 
-### m6.symp: Drop nonlinear fixed time effect
+**m6.symp: Drop nonlinear fixed time effect**
 
 * Simplify model by making time effect linear
 * Results in gain of $df=3$
 
 
-m6.symp: Drop interaction with current treatment
 ```{r}
 
 # m6.symp <- mixed_model( fixed = phq ~ transfer.campus.f*weeks
@@ -945,7 +950,7 @@ load( 'm6.symp.Rdata' )
 ```
 
 
-#### Compare models with & without nonlinear fixed time effect
+**Compare models with & without nonlinear fixed time effect**
 
 * Model with nonlinear time effect is significantly better
 * Retain nonlinear fixed time effect
@@ -955,7 +960,7 @@ load( 'm6.symp.Rdata' )
 ( lrt.m5symp.m6symp <- anova( m5.symp, m6.symp ) )
 ```
 
-### m7.symp: Student status by time interaction
+**m7.symp: Student status by time interaction**
 
 * Tests major hypothesis that shape of trajectories will differ by student status
 
@@ -980,7 +985,7 @@ load( 'm7.symp.Rdata' )
 ```
 
 
-#### Compare models with & without student stauts by time interaction
+**Compare models with & without student status by time interaction**
 
 * Model with interaction tends to be better & approaches statistical significance threshold without crossing it
 * AIC is better in model with interaction
@@ -991,7 +996,7 @@ load( 'm7.symp.Rdata' )
 ```
 
 
-### m8.symp: Student status altogether
+**m8.symp: Student status altogether**
 ```{r}
 # m8.symp <- mixed_model( fixed = phq ~ rcs( weeks, 3 )
 #                 + txcur
@@ -1014,7 +1019,7 @@ load( 'm8.symp.Rdata' )
 
 
 
-#### Compare models with & without student status main effect
+**Compare models with & without student status main effect**
 
 * Yields overall test of main effect of student status
 * Model with student status not significantly better 
@@ -1024,7 +1029,7 @@ load( 'm8.symp.Rdata' )
 ( lrt.m8symp.m7symp <- anova( m8.symp, m7.symp ) )
 ```
 
-#### Compare model without student status to one with both main effect & interaction
+**Compare model without student status to one with both main effect & interaction**
 
 * Yields overall test of student status & interactions together
 * Model approaches but doesn't reach significance
@@ -1195,7 +1200,7 @@ cowplot::plot_grid( re.s.bis, re.s.curfin, re.s.mhpast, re.s.parented,
 
 
 
-### m9.symp: Exclude off-campus first-years
+**m9.symp: Exclude off-campus first-years**
 * Exclude off-campus first-year students ($n=16$) from the analysis to see if their inclusion is muting the effect of being a first-year vs. being a transfer student
 * Effects are highly similar when excluding these students
 
@@ -1225,7 +1230,7 @@ load( 'm9.symp.Rdata' )
 ```
 
 
-### m10.symp: Marker of risk
+**m10.symp: Marker of risk**
 
 * Possible that being a transfer and living off campus are markers of risk but not causal factors
 * Remove potential confounding factors that school administrators would not have access to
@@ -1247,7 +1252,7 @@ load( 'm10.symp.Rdata' )
 ```
 
 
-### m11.symp: Drop effect of student status from m10.symp
+**m11.symp: Drop effect of student status from m10.symp**
 
 * Drop effects of student status to get overall estimate of effect with likelihood ratio test
 
@@ -1268,7 +1273,7 @@ load( 'm11.symp.Rdata' )
 ```
 
 
-#### Compare m10.symp & m11.symp to test overall effect of student status
+**Compare m10.symp & m11.symp to test overall effect of student status**
 
 * Model with student status & interactions significantly better than model without it
 * AIC better when including student status & interaction effects
@@ -1279,10 +1284,10 @@ load( 'm11.symp.Rdata' )
 
 
 
-# Role Functioning Analyses
+## Model Role Functioning Trajectories
 
 
-## Data Preparation
+### Data Preparation
 
 Setup data for continuation ratio ordinal mixed-effects logistic regression analyses.
 
@@ -1294,7 +1299,7 @@ cr.data$cohort <- cr.vals.role$cohort
 ```
 
 
-### m0.role: Most complex model
+**m0.role: Most complex model**
 
 * Includes nonlinear time effects
 * Random effects for intercept & linear time effect & correlation among these variance components
@@ -1323,7 +1328,7 @@ load( 'm0.role.Rdata' )
 
 
 
-### m1.role: Drop random time slope
+**m1.role: Drop random time slope**
 
 
 ```{r}
@@ -1347,7 +1352,7 @@ load( 'm1.role.Rdata' )
 ```
 
 
-#### Compare m0.role & m1.role 
+**Compare m0.role & m1.role** 
 
 * Retain random slope for time effect
 
@@ -1355,7 +1360,7 @@ load( 'm1.role.Rdata' )
 ( lrt.m1role.m0role <- anova( m1.role, m0.role ) )
 ```
 
-### m2.role: Drop interaction of txcur & time
+**m2.role: Drop interaction of txcur & time**
 
 ```{r}
 # m2.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
@@ -1378,12 +1383,12 @@ load( 'm2.role.Rdata' )
 ```
 
 
-#### Compare m2.role to m0.role
+**Compare m2.role to m0.role**
 ```{r}
 ( lrt.m2role.m0role <- anova( m2.role, m0.role ) )
 ```
 
-### Drop interaction of procrastination & time
+**Drop interaction of procrastination & time**
 
 ```{r}
 # m3.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
@@ -1406,13 +1411,13 @@ load( 'm3.role.Rdata' )
 ```
 
 
-#### Compare m3.role to m2.role
+**Compare m3.role to m2.role**
 
 ```{r}
 ( lrt.3role.m2role <- anova( m3.role, m2.role ) )
 ```
 
-### Drop interaction of inhibition & time
+**Drop interaction of inhibition & time**
 
 ```{r}
 # m4.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*rcs( weeks, 3 )
@@ -1435,14 +1440,14 @@ load( 'm4.role.Rdata' )
 ```
 
 
-#### Compare m4.role to m3.role
+**Compare m4.role to m3.role**
 
 ```{r}
 ( lrt.m4role.m3role <- anova( m4.role, m3.role ) )
 ```
 
 
-### Drop nonlinear fixed time effects
+**Drop nonlinear fixed time effects**
 
 ```{r}
 # m5.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*weeks
@@ -1486,14 +1491,14 @@ load( 'm5a.role.Rdata' )
 ```
 
 
-#### Compare m5.role to m4.role
+**Compare m5.role to m4.role**
 
 ```{r}
 ( lrt.m5role.m4role <- anova( m5.role, m4.role ) )
 ```
 
 
-### Drop student status by time interaction
+**Drop student status by time interaction**
 
 
 ```{r}
@@ -1517,13 +1522,13 @@ load( 'm6.role.Rdata' )
 ```
 
 
-#### Overall test interaction between student status & time
+**Overall test interaction between student status & time**
 
 ```{r}
 ( lrt.m6role.m5arole <- anova( m6.role, m5.role ) )
 ```
 
-### Drop student status altogether
+**Drop student status altogether**
 
 ```{r}
 # m7.role <- mixed_model( fixed = roleemot.new ~  weeks
@@ -1546,14 +1551,14 @@ load( 'm7.role.Rdata' )
 ```
 
 
-#### Test of main effect of student status
+**Test of main effect of student status**
 
 ```{r}
 ( lrt.m7role.m6role <- anova( m7.role, m6.role ) )
 ```
 
 
-#### Test of overall effect of student status including interaction
+**Test of overall effect of student status including interaction**
 
 ```{r}
 ( lrt.m7role.m5role <- anova( m7.role, m5.role ) )
@@ -1561,7 +1566,7 @@ load( 'm7.role.Rdata' )
 
 
 
-### m8.role: Refit m5.role testing parallel slopes
+**m8.role: Refit m5.role testing parallel slopes**
 ```{r}
 # m8.role <- mixed_model( fixed = roleemot.new ~ transfer.campus.f*weeks
 #                 + txcur
@@ -1582,7 +1587,7 @@ load( 'm7.role.Rdata' )
 load( 'm8.role.Rdata' )
 ```
 
-#### Test non-parallel slopes
+**Test non-parallel slopes**
 No evidence for non-parallel slopes for effect of transfer.campus.f
 ```{r}
 anova( m5.role, m8.role )
@@ -1637,7 +1642,7 @@ cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"
 
 m5.role.probplot <- ggplot( plot_data_m, aes( weeks, prob, group = ordinal_responsef, color = ordinal_responsef, fill = ordinal_responsef))+
   geom_line( size = 2 )+
-  geom_ribbon(aes(ymin= prob.low,ymax=prob.up,alpha=0.3) ) +
+  geom_ribbon(aes(ymin= prob.low,ymax=prob.up,alpha=0.5) ) +
   facet_wrap( ~transfer.campus.f ) +
   labs( title = 'Predicted Probabilities of Role Impairment',
         y = 'Marginal Probabilities',
@@ -1648,10 +1653,12 @@ m5.role.probplot <- ggplot( plot_data_m, aes( weeks, prob, group = ordinal_respo
         color = 'Total Impairment Items Reported' ) +
   theme( plot.title = element_text( color = 'darkblue', face = 'bold', size = 18, hjust = 0.5),
          plot.subtitle = element_text( face = 'bold', size = 14, hjust = 0.5),
-         strip.text = element_text( size = 14 ),
+         strip.text = element_text( size = 14, face = 'bold' ),
          axis.title = element_text( size = 13, face = 'bold'),
-         legend.title = element_text( face = 'bold'),
-         plot.caption = element_text( size = 11, hjust = 0 )) +
+         legend.title = element_text( face = 'bold', size = 14),
+         legend.text = element_text( size = 12 ),
+         plot.caption = element_text( size = 11, hjust = 0 ),
+         legend.position = 'bottom' ) +
   scale_fill_manual(values=cbbPalette) +
   scale_color_manual(values = cbbPalette ) +
   geom_vline( xintercept = 0, color = 2 ) +
@@ -1720,7 +1727,7 @@ cowplot::plot_grid( role.re.i.bis, role.re.i.curfin, role.re.i.mhpast, role.re.i
 ```
 
 
-# Social Impairment Analyses
+## Modeling Social Impairment Trajectories
 
 ```{r}
 cr.vals.social <- cr_setup( ctsr.use$socactiv )
@@ -2232,24 +2239,28 @@ load( 'hm2a.symp.Rdata' )
 ```{r}
 
 
-hm2.symppred <- ggpredict( hm2.symp, term=c('age20plus','offcampus'), type = 'fe' )
-save( hm2.symppred, file = 'hm2.symppred.RData'  )
+# hm2.symppred <- ggpredict( hm2.symp, term=c('age20plus','offcampus'), type = 'fe' )
+# save( hm2.symppred, file = 'hm2.symppred.RData'  )
 load( 'hm2.symppred.RData' )
 
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 
 p <- plot( hm2.symppred ) +
-  labs( title = 'Predicted Depression Score by Living Situation',
-        y = 'PHQ-9 Total Score',
+  labs( title = 'Predicted Depression Score by Living Situation and Age',
+        y = 'Predicted PHQ-9 Total Score',
         x = 'Age Group (Years)',
         color = 'Living Situation',
         subtitle = 'Based on Generalized Linear Mixed-Effects Model',
         caption = 'Adjusted for survey year, past mental health diagnosis, sex, race, international student status, LGBTQ+ status, & financial comfort') +
   theme( plot.title = element_text( size = 18, face = 'bold', color = 'darkblue', hjust = .5 ),
          plot.subtitle = element_text( size = 14, face = 'bold', hjust = .5 ),
-         axis.title = element_text( size = 12, face = 'bold' ) ) +
-  scale_color_manual( values = cbbPalette )
+         axis.title = element_text( size = 12, face = 'bold' ),
+         legend.position = 'bottom',
+         legend.title = element_text( face = 'bold', size = 14 ),
+         legend.text = element_text( size = 12 ),
+         plot.caption = element_text( size = 11 )) +
+  scale_color_manual( values = c(1,2) )
 p
 
 
