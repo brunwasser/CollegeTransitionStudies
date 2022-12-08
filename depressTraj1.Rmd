@@ -2090,6 +2090,462 @@ list( e.rare, e.notrare )
 html( summaryM(roleemot ~ assess, data=ctsr.use ) )
 ```
 
+<br>
+
+## Specific Symptom Trajectories
+
+### Sadness Trajectories
+
+```{r}
+cr.vals.phq2 <- cr_setup( ctsr.use$phq2o )
+cr.data.phq2 <- ctsr.use[cr.vals.phq2$subs, ]
+cr.data.phq2$phq2.new <- cr.vals.phq2$y
+cr.data.phq2$cohort <- cr.vals.phq2$cohort
+```
+
+
+
+```{r}
+# m0.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m0.phq2, file = 'm0.phq2.Rdata' )
+load( 'm0.phq2.Rdata' )
+```
+
+
+
+
+```{r}
+# m1.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ 1 | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m1.phq2, file = 'm1.phq2.Rdata' )
+load( 'm1.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m0.phq2, m1.phq2 )
+```
+
+
+```{r}
+# m2.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m2.phq2, file = 'm2.phq2.Rdata' )
+load( 'm2.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m0.phq2, m2.phq2 )
+```
+
+
+
+
+```{r}
+# m3.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m3.phq2, file = 'm3.phq2.Rdata' )
+load( 'm3.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m2.phq2, m3.phq2 )
+```
+
+
+```{r}
+# m4.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m4.phq2, file = 'm4.phq2.Rdata' )
+load( 'm4.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m3.phq2, m4.phq2 )
+```
+
+
+```{r}
+# m5.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f
+#                 + rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m5.phq2, file = 'm5.phq2.Rdata' )
+load( 'm5.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m4.phq2, m5.phq2 )
+```
+
+
+```{r}
+# m6.phq2 <- mixed_model( fixed = phq2.new ~ 
+#                 + rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m6.phq2, file = 'm6.phq2.Rdata' )
+load( 'm6.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m6.phq2, m4.phq2 )
+```
+
+
+```{r}
+anova( m6.phq2, m5.phq2 )
+```
+
+
+
+```{r}
+# m7.phq2 <- mixed_model( fixed = phq2.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + transfer.campus.f*cohort
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq2,
+#                 family = binomial()
+#                 )
+# 
+# save( m7.phq2, file = 'm7.phq2.Rdata' )
+load( 'm7.phq2.Rdata' )
+```
+
+
+
+```{r}
+anova( m7.phq2, m4.phq2 )
+```
+
+
+### Anhedonia Trajectories
+
+```{r}
+cr.vals.phq1 <- cr_setup( ctsr.use$phq1o )
+cr.data.phq1 <- ctsr.use[cr.vals.phq1$subs, ]
+cr.data.phq1$phq1.new <- cr.vals.phq1$y
+cr.data.phq1$cohort <- cr.vals.phq1$cohort
+```
+
+
+
+```{r}
+# m0.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m0.phq1, file = 'm0.phq1.Rdata' )
+load( 'm0.phq1.Rdata' )
+```
+
+
+
+
+```{r}
+# m1.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur*rcs( weeks, 3 )
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ 1 | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m1.phq1, file = 'm1.phq1.Rdata' )
+load( 'm1.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m0.phq1, m1.phq1 )
+```
+
+
+```{r}
+# m2.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct*rcs( weeks, 3 )
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m2.phq1, file = 'm2.phq1.Rdata' )
+load( 'm2.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m0.phq1, m2.phq1 )
+```
+
+
+
+
+```{r}
+# m3.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct*rcs( weeks, 3 )
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m3.phq1, file = 'm3.phq1.Rdata' )
+load( 'm3.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m2.phq1, m3.phq1 )
+```
+
+
+```{r}
+# m4.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m4.phq1, file = 'm4.phq1.Rdata' )
+load( 'm4.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m3.phq1, m4.phq1 )
+```
+
+
+```{r}
+# m5.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f
+#                 + rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m5.phq1, file = 'm5.phq1.Rdata' )
+load( 'm5.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m4.phq1, m5.phq1 )
+```
+
+
+```{r}
+# m6.phq1 <- mixed_model( fixed = phq1.new ~ 
+#                 + rcs( weeks, 3 )
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m6.phq1, file = 'm6.phq1.Rdata' )
+load( 'm6.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m6.phq1, m4.phq1 )
+```
+
+
+```{r}
+anova( m6.phq1, m5.phq1 )
+```
+
+
+
+```{r}
+# m7.phq1 <- mixed_model( fixed = phq1.new ~ transfer.campus.f*rcs( weeks, 3 )
+#                 + transfer.campus.f*cohort
+#                 + txcur
+#                 + procrastct
+#                 + bisct
+#                 + curfin
+#                 + race2
+#                 + male
+#                 + cohort
+#                 + mhpast,
+#                 random =~ weeks | id,
+#                 data = cr.data.phq1,
+#                 family = binomial()
+#                 )
+# 
+# save( m7.phq1, file = 'm7.phq1.Rdata' )
+load( 'm7.phq1.Rdata' )
+```
+
+
+
+```{r}
+anova( m7.phq1, m4.phq1 )
+```
+
+
 
 
 # Study 3: Healthy Minds

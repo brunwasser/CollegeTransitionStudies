@@ -48,10 +48,30 @@ table( ctsr$mhpast <- ifelse( ctsr$psycever == 'Yes' |
 )
 ctsr$mhpast <- factor( ctsr$mhpast, levels = 0:1, labels = c('No','Yes') )
 
+
+ctsr$phq1o <- ctsr$phq1
+ctsr$phq1o[ ctsr$phq1o == 3 ] <- 2
+summary( ctsr$phq1o <- ordered( ctsr$phq1o, 
+                       levels = 0:2, 
+                       labels = c('Not at all','Several days','More than half of days/nearly every day'),
+                       )
+)
+
+ctsr$phq2o <- ctsr$phq2
+ctsr$phq2o[ ctsr$phq2o == 3 ] <- 2
+summary( ctsr$phq2o <- ordered( ctsr$phq2o, 
+                                levels = 0:2, 
+                                labels = c('Not at all','Several days','More than half of days/nearly every day'),
+)
+)
+
+
+
 ctsr1 <- subset( ctsr, !is.na( ctsr$transfer ), 
                  c( 'id','assess','week','campus','group','male','race2','parented','college','pastfin',
                     'curfin','relig','medsever','medscur','txcur','therever','thercur',
-                    'txever','mhpast','phq','bis','bas','transfer','roleemot','socactiv' ) 
+                    'txever','mhpast','phq','bis','bas','transfer','roleemot','socactiv',
+                    'phq1o','phq2o' ) 
 )
 
 ctsr1a <- merge( ctsr1, pro, by = 'id', all.x = T )
